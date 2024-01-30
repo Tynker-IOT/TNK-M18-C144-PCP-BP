@@ -1,0 +1,374 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: radial-gradient(#9bdfff, #009bef);
+    overflow: hidden;
+    color: #525252;
+}
+
+h1 {
+    color: #343a40;
+    text-align: center;
+    margin-bottom: 20px;
+    width: 100%;
+}
+h2 {
+    color:aqua;
+    text-align: center;
+    background-color: black;
+    border-radius: 20px;
+    padding:2%;
+}
+h4 {
+    color: #ffffff;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: relative;
+}    
+
+
+.ratio-container{
+  position: relative;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.ratio-container::before {
+  content: "";
+  display: block;
+  padding-bottom: 40%; /* Adjust this percentage for your desired aspect ratio (e.g., 4:3) */
+
+}
+
+.ratio-content{
+  position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+}
+
+
+  #stats {
+    width: 80%;
+    background-color: #ffffff8f;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: auto;
+    margin-top: 10px;
+    height: auto;
+}
+
+#stats p {
+    margin-bottom: 10px;
+}
+
+#stats span {
+    font-weight: bold;
+}
+
+
+
+
+/*  */
+progress{
+  /* Reset the default appearance */
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* hides Firefox progress fill bar */
+::-moz-progress-bar {
+  visibility: hidden;
+}
+
+/* hides Edge progress fill bar */
+::-ms-fill {
+  display: none;
+}
+/* hides all pseudo elements on Webkit*/
+::-webkit-progress-inner-element, ::-webkit-progress-bar, ::-webkit-progress-value{
+  display:none;
+}
+
+.doughnut{
+  position:relative;
+  width: 100px;
+  height: 100px;
+  text-align: center;
+  background-color: transparent;
+}
+
+.doughnut progress{
+  width:100%; height:100%;
+  border:0;
+  border-radius:50%;
+  background: conic-gradient(CornflowerBlue 40%, lightgrey 0);
+}  
+
+/* Since Edge 17 doesn't support masking, we go for a white overlay */
+.doughnut::before{
+  content:attr(data-value);
+  position:absolute; 
+  background: rgb(213, 247, 247);
+  border-radius: 50%;
+  top:8px; right:8px; bottom:8px; left:8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+}
+#stats{
+    font-family: sans-serif;
+    padding: 1rem;
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    grid-gap:20px;
+    background: #ffffff9ffff;
+  }
+
+  
+ .human {
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  transform: rotateX(-90deg) rotateY(0deg) rotateZ(0deg) translateY(-160%);
+   height: 100px;
+   width: 80px;
+}
+
+
+  #head{
+    background-color:#ea4335;
+    width:70%;
+    padding:30%;
+    border-radius:50%;
+    transform:translatey(-2px);
+    animation: headmove 1000ms ease-in-out infinite;
+    
+  }
+  #torso{
+    display:flex;
+    flex-direction:row;
+    width: 100%;
+  }
+  #handr{
+      background-color:#4285f4;
+    width:70%;
+    z-index:4;
+    border-bottom-left-radius:10px;
+    border-bottom-right-radius:10px;
+    transform:translatex(-4px);
+    animation: handrmove 1s ease-in-out infinite ;
+    transform-origin: 50% 0;
+ 
+  }
+  #handl{
+      background-color:#4285f4;
+      width:70%;
+      /* padding:40% 15%; */
+    z-index:1;
+     transform:translatex(-4px);
+    border-bottom-left-radius:10px;
+    border-bottom-right-radius:10px;
+     animation: handlmove 1s ease-in-out infinite ;
+    transform-origin: 50% 0;
+    
+  }
+  #lower{
+    display:flex; 
+  }
+  #legl{ 
+    background-color:#fbbc05;
+    width:30%;
+    height:70px;
+    transform:translatex(50px);
+    border-bottom-left-radius:10px;
+    border-bottom-right-radius:10px;
+    transform:rotate(-10deg);
+    animation: leglmove 1s ease-in-out infinite ;
+    transform-origin: 50% 0;
+    
+  }
+  #legr{ 
+    background-color:#fbbc05;
+    width:30%;
+    /* height:70px; */
+    z-index:4;
+    margin-right:10px;
+    border-bottom-left-radius:10px;
+    border-bottom-right-radius:10px;
+    transform:rotate(10deg);
+    animation: legrmove 1s ease-in-out infinite ;
+    transform-origin: 50% 0;
+    
+  }
+  
+  #body{
+    background-color:#34a853;
+    width:100%;
+    padding: 50% 30%;
+    /* height:80px; */
+    z-index:3;
+    margin-left: -20px;
+    animation: bodymove 1s infinite ;
+  }
+  #main{
+     display:flex;
+    flex-direction:column;
+     justify-content: center;
+    align-items: center;
+     position: absolute; /* or absolute */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  @keyframes headmove{
+    50%{ transform:translate(0.5px);}
+  }
+  @keyframes bodymove{
+    0%{transform:translatey(1px);}
+    50% {transform:translate(1px);}
+    100%{transform:translatey(1px);}
+    
+  }
+  @keyframes leglmove{
+    0%{transform:rotate(20deg);}
+    50% {transform:rotate(-20deg);}
+    100%{transform:rotate(20deg);}
+    
+  }
+  @keyframes legrmove{
+    0%{transform:rotate(-20deg);}
+    50% {transform:rotate(20deg);}
+    100%{transform:rotate(-20deg);}
+    
+  }
+  @keyframes handrmove{
+    0%{transform:rotate(35deg);}
+    50% {transform:rotate(-35deg);}
+    100%{transform:rotate(35deg);}
+    
+  }
+  @keyframes handlmove{
+    0%{transform:rotate(-35deg);}
+    50% {transform:rotate(35deg);}
+    100%{transform:rotate(-35deg);}
+    
+  }
+  @keyframes groundmovebmp1{
+    100%{transform:translate(-90px,-25px) rotate(45deg) ;}
+  }
+  @keyframes groundmovebmp2{
+    100%{transform:translate(150px,-43px) rotate(45deg) ;}
+  }
+  @keyframes groundmovebmp3{
+    100%{transform:translate(100px,-53px) rotate(45deg) ;}
+  }
+
+
+.rightContainer{
+   flex: 0 0 30%;
+}
+
+.road{
+  background-color: #525252;
+  position: absolute;
+  top: 60%;
+  width: 100%;
+  height: 50%;
+  transform-origin: bottom;
+  transform-style: preserve-3d;
+  transform: perspective(500px) rotateX(45deg);
+  z-index: -2;
+}
+.road:before{
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%);
+  left: 50%;
+  width:100%; 
+  height:10px;
+  background: linear-gradient(90deg, #fff 0%, #fff 70%, #525252 70%,#525252 100%);
+  background-size: 100px;
+  animation: animate 0.5s linear infinite;
+}
+.road:after{
+  content: '';
+  position: absolute;
+  width:100%; 
+  height:30px;
+  background: #343434;
+  bottom: -30px;
+  transform-origin: top;
+  transform: perspective(500px) rotateX(-25deg);
+}
+#statusBarText{
+  
+  position: absolute;
+  height:30px;
+  background: transparent;
+  bottom: -30px;
+  transform-origin: top;
+  transform: perspective(50000px) rotateX(-25deg);
+  color:white;
+  z-index: 2;
+  left: 0; 
+  right: 0; 
+  margin: auto; 
+  width: fit-content;
+  margin-top: 2px;
+
+}
+
+#statusBar{
+  content: '';
+  position: absolute;
+  width:1%; 
+  height:30px;
+  background: #0df5af80;
+  bottom: -30px;
+  transform-origin: top;
+  transform: perspective(500px) rotateX(-25deg);
+  z-index: 1;
+}
+
+@keyframes animate{
+  0%{ background-position: 0px;}
+  100%{ background-position: -100px;}
+}
+
+.end{
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(50%, -50%) rotateZ(90deg) rotateX(-115deg) translateY(-100%); /* Rotate the finish board */
+  width: 200px; /* Adjust width as needed */
+  height: 80px; /* Adjust height as needed */
+  background-color: #FFD700; /* Adjust color as needed */
+  text-align: center;
+  line-height: 100px;
+  font-weight: bold;
+  color: #000; /* Adjust text color as needed */
+  font-size: 32px;
+  z-index: 1;
+}

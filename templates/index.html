@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cargo IOT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ '/static/style.css' }}" />
+    <script>
+        window.onload = function () {
+            setInterval(function () {
+                // Make an AJAX POST request using jQuery
+                $.ajax({
+                    url: "/getSensorData",
+                    type: "POST",
+                    success: function (data) {
+
+                        if(data && data['/Steps'] >=1)
+                        {
+                        // Handle the response if needed
+                        updateData('temperature', data["/Temperature"]);
+                        updateData('humidity', data["/Humidity"]);
+                        updateData('luminance', data["/Lux"]);
+                        updateData('steps', data["/Steps"]);
+
+                        var steps = ('luminance', data["/Steps"]);
+                        var calories = {{thresholds['calories']}};
+                        var leftPosition = (data["burnedCalories"] *70 / calories) + 12 ;
+                        document.getElementById("human").style.left = leftPosition <80 ? `${leftPosition}%` : '80%';
+                        document.getElementById('stepStatus').innerHTML = `${steps}`;
+                        document.getElementById("distance").innerHTML = data['distance'];
+                        document.getElementById("avgStepLength").innerHTML = data['avgStepLength'];
+
+                        document.getElementById("burnedCalories").innerHTML =  data["burnedCalories"] ? data["burnedCalories"] : 0 ;
+                        document.getElementById("statusBar").style.width =  leftPosition+"%";
+                        document.getElementById("statusBarText").innerHTML = data["burnedCalories"] ? `Calories :${data["burnedCalories"]} / ${calories} kcal` : '0 / 0'
+                        }
+                    },
+                    error: function (error) {
+                        console.error("Failed to send data request", error);
+                    }
+                });
+            }, 5000);
+
+            // Get all elements with the class 'doughnut'
+            const doughnuts = document.querySelectorAll('.doughnut');
+
+            // Loop through each doughnut element
+            doughnuts.forEach((doughnut) => {
+                // Get the progress element inside the current doughnut
+                const progress = doughnut.querySelector('progress');
+                // Get the data-value attribute of the current doughnut
+                const dataValue = progress.getAttribute('value');
+                // Set the conic gradient dynamically for the current progress element
+                progress.style.background = `conic-gradient(CornflowerBlue ${dataValue}%, lightgrey 0)`;
+            });
+
+
+        }
+
+        function updateData(elementId, dataValue) {
+            const element = document.getElementById(elementId);
+            element.setAttribute('data-value', dataValue);
+            const progress = element.querySelector('progress');
+            progress.style.background = `conic-gradient(CornflowerBlue ${dataValue}%, lightgrey 0)`;
+
+        }
+    </script>
+
+</head>
+
+<body>
+    <!-- <h1 style="color: #f8f9fa;">Cargo IOT</h1> -->
+       <div class="ratio-container" >
+            
+
+            <div class="road">
+                <div class="human"  style="left: 12%" id="human">
+                    <div id="head"></div>
+                    <div id="torso">
+                      
+                      <div id="handr"></div> 
+                      <div id="body"></div>
+                        <div id="handl"></div>
+                      
+                    </div>
+                    <div id="lower">
+                        <div id="legr"></div>
+                        <div id="legl"></div>
+                    </div>
+                    </div> 
+                <div class="board end">Finish!</div>
+                <div id="statusBarText">Calories: 0 / {{thresholds['calories']}} kcal</div>
+                <div id="statusBar"></div>
+              </div>
+         </div>
+         
+        <div class="rightContainer">
+            <div id="stats" class="d-flex flex-column" >
+                    <div>
+                               <div>
+                                Target calories: <span id="burnedCalories"> 0</span> / {{thresholds['calories']}} kcal
+                               </div>
+                               <div>
+                               Distance : <span id="distance">0 m</span>
+                               </div>
+                               
+                               <div>
+                               Steps : <span id="stepStatus">0 / 3000 steps</span>
+                            </div>
+                               <div>
+                               Avg. Step Length : <span id="avgStepLength">0.0 m</span>
+                            </div>
+                        
+                        <div class="w-100 d-flex justify-content-center"><!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                Set Thresholds
+                            </button>
+                        </div>        
+                        
+                    </div>
+                <div style="display: flex; flex-wrap: wrap; gap: 40px; margin-top: 20%; padding-bottom: 30px;
+                            align-items: end; justify-content: center;">
+                    <span class="doughnut" data-value="40" id="temperature">
+                        <progress class="temperature" value="40"></progress>
+                        Temperature
+                    </span>
+                    <span class="doughnut" data-value="60" id="humidity">
+                        <progress class="humidity" value="60"></progress>
+                        Humidity
+                    </span>
+                    <span class="doughnut" data-value="70" id="luminance">
+                        <progress class="luminance" value="70"></progress>
+                        Light
+                    </span>
+                    <span class="doughnut" data-value="70" id="steps">
+                        <progress class="steps" value="70"></progress>
+                        Steps
+                    </span>
+            </div>
+            
+            </div>
+        </div>
+    
+    <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Set Thresholds</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="/setThresholds" method="post">
+            <div class="d-flex gap-2">
+                <span class="col">Calories: </span>
+                <input type="number" placeholder="max" class="form-control col" required name="calories" value="{{thresholds['calories']}}"> 
+            </div>
+         
+            <button type="submit" class="btn btn-primary">Save changes</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+
+</html>
