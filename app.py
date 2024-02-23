@@ -46,9 +46,8 @@ def getSensorData():
             newSteps = newStepCount - lastStepCount  
             temp = float(sensorData['/Temperature'] ) 
             hum = float(sensorData['/Humidity']  )
-            lux = float(sensorData['/Lux']  )
             
-            calories = newSteps *(0.5 + temp/2000 + hum/2000) + (newSteps * 0.01 if lux > 2000 else newSteps * 0.005)
+            calories = newSteps *(0.5 + temp/2000 + hum/2000)
             burnedCalories = burnedCalories + calories
             sensorData['burnedCalories'] = int(burnedCalories)
             
